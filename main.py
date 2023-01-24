@@ -30,9 +30,12 @@ def start_render ():
         for event in pygame.event.get():
             if event.type == pygame.QUIT: sys.exit()
         
-        clock.tick(6)
+        clock.tick(60)
 
-        planet.random_walk()
+        planet.random_walk(12)
+
+        # planet.rotate(1)
+
         where = 'left' if planet.direction > 0 else 'right'
 
         text = font.render(f"moving {where}", True, graph_color)
