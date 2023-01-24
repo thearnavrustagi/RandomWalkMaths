@@ -1,5 +1,6 @@
 from sprite import Sprite
 import pygame
+import numpy as np
 
 DEGREES = 360
 
