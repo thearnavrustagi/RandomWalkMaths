@@ -13,9 +13,9 @@ monkey = Sprite("sprites/sprite2-128x128.png",size)
 memory = dict({'left':0,'right':0})
 
 def main ():
-    planet_sprites= initialise()
+    initialise()
     try:
-        start_render(planet_sprites)
+        start_render()
     except KeyboardInterrupt:
         draw_plot(memory)
 
@@ -23,12 +23,12 @@ def initialise():
     monkey.origin()
     planet_sprites = []
 
-    for i in range(1,7):
-        planet_sprites.append(pygame.image.load(f"sprites/Frames/Pixel Earth{i}.png"))
+    # for i in range(1,7):
+    #     planet_sprites.append(pygame.image.load(f"sprites/Frames/Pixel Earth{i}.png"))
 
     return planet_sprites
 
-def start_render (planet_sprites):
+def start_render ():
     global memory
     graph_color = (0,255,100)
     background_color=(16,0,16)
@@ -39,7 +39,7 @@ def start_render (planet_sprites):
         for event in pygame.event.get():
             if event.type == pygame.QUIT: sys.exit()
         
-        clock.tick(3)
+        clock.tick(60)
 
         monkey.random_walk()
 
@@ -55,10 +55,10 @@ def start_render (planet_sprites):
         monkey.blit(screen)
         screen.blit(text, textRect)
 
-        screen.blit(planet_sprites[itr%6],(128,128))
+        # screen.blit(planet_sprites[itr%6],(128,128))
         
         draw_edge(monkey.target[0],(255,50,50),940,860)
-        draw_nescafe(screen,monkey.target[0],820)
+        # draw_nescafe(screen,monkey.target[0],820)
 
         pygame.display.flip()
         itr += 1
@@ -71,13 +71,13 @@ def draw_graph(screen,color):
 def draw_edge (i,color,_from=910,_to=890):
     pygame.draw.line(screen,color,(i,_from),(i,_to))
 
-def draw_nescafe (screen, x,y):
-    nescafe = pygame.image.load("./sprites/nescafe.png")
-    nescafe_rect = nescafe.get_rect()
-    nescafe_rect.centerx = x
-    nescafe_rect.centery = y
+# def draw_nescafe (screen, x,y):
+#     nescafe = pygame.image.load("./sprites/nescafe.png")
+#     nescafe_rect = nescafe.get_rect()
+#     nescafe_rect.centerx = x
+#     nescafe_rect.centery = y
 
-    screen.blit(nescafe, nescafe_rect)
+#     screen.blit(nescafe, nescafe_rect)
 
 def draw_plot (data):
     direction = list(data.keys())
