@@ -3,7 +3,7 @@ from math import sqrt
 import numpy as np
 
 class Sprite :
-    def __init__ (self, impath, scale : int = 1, direction : int = 1):
+    def __init__ (self, impath, scale : int = 1, direction : int = 1, xpadding : int = 0, ypadding : int = 0):
         # Direction can only be +1 or -1 
         self.impath = impath
         self.image = pygame.image.load(self.impath)
@@ -12,12 +12,16 @@ class Sprite :
         self.direction = direction
         self.steps = 0
         self.net_rotation = 0
+        self.paddingx = xpadding
+        self.paddingy = ypadding
         
     def blit(self,screen):
-        screen.blit(self.image,self.rect)
+        screen.blit(self.image, self.rect)
 
-    def rotate(self, degrees : int = 1) : 
+    def rotate(self, degrees : int = 1, pos : tuple = (0,0)) : 
         self.image = pygame.image.load(self.impath)
+        self.image = pygame.transform.scale(self.image,(100*self.scale,100*self.scale))
+        self.rect.center = tuple([pos[0]//2, pos[1]//2 + self.paddingy])
         self.net_rotation += degrees * self.direction
         self.image = pygame.transform.rotate(self.image, self.net_rotation)
         self.rect = self.image.get_rect(center=self.rect.center)
