@@ -1,6 +1,7 @@
 import sys, pygame
 from pygame.locals import *
 from planet import Planet
+from sprite import Sprite
 from animal import Animal
 from numpy import random
 import matplotlib.pyplot as plt
@@ -12,16 +13,18 @@ font = pygame.font.Font('./font.tff',96)
 screen = pygame.display.set_mode(size)
 steps = dict({'left':0,'right':0})
 planet = Planet ("./sprites/Planets/Planet.png", scale=7, ypadding=40)
+player = Sprite('./sprites/Player/base.png')
 
 def main ():
     initialise()
     start_render()
 
 def initialise():
-    pass
+    global player
+    player.initialise_spritesheets("./sprites/Player/fff")
 
 def start_render ():
-    global steps
+    global steps, planet, player, screen, font
     graph_color = (0,255,100)
     background_color=(16,0,16)
     clock = pygame.time.Clock()
@@ -30,14 +33,11 @@ def start_render ():
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT: sys.exit()
-        
 
         clock.tick(60)
-
         planet.random_walk(12 , size)
 
         where = 'left' if planet.direction > 0 else 'right'
-
         text = font.render(f"moving {where}", True, graph_color)
         textRect = text.get_rect()
         textRect.center = (width//2,45)
@@ -45,14 +45,12 @@ def start_render ():
         screen.fill(background_color)
         planet.blit(screen)
         screen.blit(text, textRect)
-        
+        player.animate_and_blit(screen)
 
         # Checking if The Sprite has gone back to the original position
         if planet.net_rotation in (0, 360) : 
             print("Back to Origin!")
             break
-        print(planet.net_rotation)
-
         pygame.display.flip()
         itr += 1
 
