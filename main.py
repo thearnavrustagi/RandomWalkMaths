@@ -5,15 +5,21 @@ from sprite import Sprite
 from animal import Animal
 from numpy import random
 import matplotlib.pyplot as plt
+from math import sin, cos, pi
+from utils import *
 
-size = width, height = 1900,1000
+size = width, height = SIZE
+scale = SCALE
+steps = STEPS
+radius = RADIUS
+background = pygame.image.load('./sprites/Space.png')
 
 pygame.init()
 font = pygame.font.Font('./font.tff',96)
 screen = pygame.display.set_mode(size)
-steps = dict({'left':0,'right':0})
-planet = Planet ("./sprites/Planets/Planet.png", scale=7, ypadding=40)
-player = Sprite('./sprites/Player/base.png')
+decisions = dict({'left':0,'right':0})
+planet = Planet ("./sprites/Planets/Planet.png", scale=scale, ypadding=0)
+player = Sprite('./sprites/sprite2-128x128.png')
 
 def main ():
     initialise()
@@ -21,7 +27,7 @@ def main ():
 
 def initialise():
     global player
-    player.initialise_spritesheets("./sprites/Player/fff")
+    pass
 
 def start_render ():
     global steps, planet, player, screen, font
@@ -35,22 +41,27 @@ def start_render ():
             if event.type == pygame.QUIT: sys.exit()
 
         clock.tick(60)
-        planet.random_walk(12 , size)
 
-        where = 'left' if planet.direction > 0 else 'right'
+        where = 'left' if player.new_angle > player.angle else 'right'
+        decisions[where] += 1
         text = font.render(f"moving {where}", True, graph_color)
         textRect = text.get_rect()
         textRect.center = (width//2,45)
 
+        player.random_walk(steps)
+        planet.origin(size)
+
         screen.fill(background_color)
+        screen.blit(background,(0,0))
         planet.blit(screen)
+        create_graph(screen,planet.rect,radius,steps)
+        make_elementary_points(screen,planet.rect.center,10,0,steps,radius)
         screen.blit(text, textRect)
         player.animate_and_blit(screen)
 
         # Checking if The Sprite has gone back to the original position
         if planet.net_rotation in (0, 360) : 
-            print("Back to Origin!")
-            break
+            pass
         pygame.display.flip()
         itr += 1
 

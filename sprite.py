@@ -1,6 +1,8 @@
 import pygame
-from math import sqrt
+from math import sqrt, pi
 import numpy as np
+import utils
+from random import randint
 
 class Sprite :
     def __init__ (self, impath, scale : int = 1, direction : int = 1, xpadding : int = 0, ypadding : int = 0):
@@ -18,6 +20,11 @@ class Sprite :
         self.spritesheets = []
         self.frames = 1
         self.current_frame = 0
+
+        self.position = utils.START
+        self.new_position = utils.START
+        self.angle = utils.START * (360/utils.STEPS)
+        self.new_angle = self.angle
         
     def blit(self,screen):
         screen.blit(self.image, self.rect)
@@ -28,9 +35,11 @@ class Sprite :
             self.spritesheets.append(pygame.image.load(f"{basename}{i}.png"))
 
     def animate (self):
-        self.current_frame = self.current_frame%self.frames
-        self.image = self.spritesheets[self.current_frame].copy()
-        self.image = pygame.transform.flip(self.image.copy(),True,False)
+        #self.current_frame = self.current_frame%self.frames
+        #self.image = self.spritesheets[self.current_frame].copy()
+        #self.image = pygame.transform.flip(self.image.copy(),True,False)
+        self.image = pygame.transform.rotate(self.SRC_IMAGE.copy(),utils.get_angle(self.rect.center)*(180/pi))
+        self.rect = self.image.get_rect(center=self.rect.center)
 
     def animate_and_blit (self, screen):
         self.animate()
@@ -43,7 +52,25 @@ class Sprite :
         self.net_rotation += degrees * self.direction
         self.image = pygame.transform.rotate(self.image, self.net_rotation)
         self.rect = self.image.get_rect(center=self.rect.center)
-    
+
+    def random_walk(self,steps):
+        if self.angle == self.new_angle:
+            self.position = self.new_position
+            self.choice= 1 if randint(0,1) else -1
+            print(self.choice, self.angle)
+            self.new_position = self.position + self.choice
+            self.new_angle = (self.new_position*(360/utils.STEPS))
+        self.reach()
+
+    def reach (self):
+        if self.new_angle > self.angle: self.move(1)
+        else: self.move(-1)
+
+    def move (self, direction):
+        self.angle = self.angle+direction
+        print(self.angle)
+        self.rect.center = utils.get_point_on_earth(utils.CENTER, self.angle,360,utils.RADIUS+14)
+        print(self.rect.center)
 
 def op (o):
     return eval(f"lambda x,y : x {o} y")
