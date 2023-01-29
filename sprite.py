@@ -5,7 +5,7 @@ import utils
 from random import randint
 
 class Sprite :
-    def __init__ (self, impath, scale : int = 1, direction : int = 1, xpadding : int = 0, ypadding : int = 0):
+    def __init__ (self, impath, scale : int = 1, direction : int = 1, xpadding : int = 0, ypadding : int = 0, steps : int = 0):
         # Direction can only be +1 or -1 
         self.impath = impath
         self.SRC_IMAGE = pygame.image.load(self.impath)
@@ -13,7 +13,7 @@ class Sprite :
         self.rect = self.image.get_rect()
         self.scale = scale
         self.direction = direction
-        self.steps = 0
+        self.steps = steps
         self.net_rotation = 0
         self.paddingx = xpadding
         self.paddingy = ypadding
@@ -73,6 +73,7 @@ class Sprite :
         if self.angle == self.new_angle:
             self.position = self.new_position
             self.choice= 1 if randint(0,1) else -1
+            self.steps += self.choice
             self.new_position = self.position + self.choice
             self.new_angle = (self.new_position*(360/utils.STEPS))
         self.reach()

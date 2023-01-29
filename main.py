@@ -19,7 +19,7 @@ font = pygame.font.Font('./font.tff',96)
 screen = pygame.display.set_mode(size)
 decisions = dict({'left':0,'right':0})
 planet = Planet ("./sprites/Planets/p2.png", scale=scale, ypadding=0)
-player = Sprite('./sprites/kangaroo128x128.png')
+player = Sprite('./sprites/kangaroo128x128.png', steps=START)
 
 def main ():
     initialise()
@@ -48,6 +48,7 @@ def start_render ():
 
         where = 'left' if player.new_angle > player.angle else 'right'
         decisions[where] += 1
+
         text = font.render(f"moving {where}", True, graph_color)
         textRect = text.get_rect()
         textRect.center = (width//2,45)
@@ -63,10 +64,12 @@ def start_render ():
         player.animate_and_blit(screen)
 
         # Checking if The Sprite has gone back to the original position
-        if planet.net_rotation in (0, 360) : 
-            pass
+        if player.steps % STEPS == 0 : 
+            print("BACK to Origin It Seems! Strangeeee...")
+            break
         pygame.display.flip()
         itr += 1
+
 
 def draw_edge (i,color,_from=910,_to=890):
     pygame.draw.line(screen,color,(i,_from),(i,_to))
