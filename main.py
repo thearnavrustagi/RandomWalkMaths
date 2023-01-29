@@ -18,7 +18,7 @@ pygame.init()
 font = pygame.font.Font('./font.tff',96)
 screen = pygame.display.set_mode(size)
 decisions = dict({'left':0,'right':0})
-planet = Planet ("./sprites/Planets/Planet.png", scale=scale, ypadding=0)
+planet = Planet ("./sprites/Planets/p2.png", scale=scale, ypadding=0)
 player = Sprite('./sprites/kangaroo128x128.png')
 
 def main ():
@@ -26,7 +26,11 @@ def main ():
     start_render()
 
 def initialise():
-    global player
+    global background
+    rect = background.get_rect()
+    myscale = SIZE[0] / rect.height
+    myscale = tuple(map(lambda x,y:x*y,(myscale,myscale),rect.size))
+    background = pygame.transform.scale(background, myscale)
     pass
 
 def start_render ():
@@ -51,7 +55,6 @@ def start_render ():
         player.random_walk(steps)
         planet.origin(size)
 
-        screen.fill(background_color)
         screen.blit(background,(0,0))
         planet.blit(screen)
         create_graph(screen,planet.rect,radius,steps)
