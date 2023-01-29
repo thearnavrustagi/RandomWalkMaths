@@ -30,5 +30,6 @@ def make_elementary_points(screen,center,start,end,steps,radius,start_color=(0,2
     draw_dot(screen, get_point_on_earth(center,end,steps,radius),end_color)
 
 def get_angle (p1):
+    if not p1[0]: p1 = (0.000001,p1[1])
     return atan (p1[1]/p1[0])
 

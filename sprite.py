@@ -38,7 +38,23 @@ class Sprite :
         #self.current_frame = self.current_frame%self.frames
         #self.image = self.spritesheets[self.current_frame].copy()
         #self.image = pygame.transform.flip(self.image.copy(),True,False)
-        self.image = pygame.transform.rotate(self.SRC_IMAGE.copy(),utils.get_angle(self.rect.center)*(180/pi))
+        center = tuple(map(lambda x,y:x-y,self.rect.center,utils.CENTER))
+        image = self.SRC_IMAGE.copy()
+        if not (center[1] and center[0]): return
+        mul = -1
+        sign = lambda x: x / abs(x)
+        add = -90
+        if (center[0]) > 0: 
+            mul = -1
+            add = 180
+            if center[1] < 0:
+                image = pygame.transform.flip(image, True, True)
+            center = (center[1],center[0])
+
+        theta=utils.get_angle(center)*(180/pi) + add
+        theta = theta*mul if theta < 0 else theta
+        image = pygame.transform.flip(image,True if self.choice < 0 else False,False)
+        self.image = pygame.transform.rotate(image,theta)
         self.rect = self.image.get_rect(center=self.rect.center)
 
     def animate_and_blit (self, screen):
@@ -57,7 +73,6 @@ class Sprite :
         if self.angle == self.new_angle:
             self.position = self.new_position
             self.choice= 1 if randint(0,1) else -1
-            print(self.choice, self.angle)
             self.new_position = self.position + self.choice
             self.new_angle = (self.new_position*(360/utils.STEPS))
         self.reach()
@@ -68,9 +83,7 @@ class Sprite :
 
     def move (self, direction):
         self.angle = self.angle+direction
-        print(self.angle)
         self.rect.center = utils.get_point_on_earth(utils.CENTER, self.angle,360,utils.RADIUS+14)
-        print(self.rect.center)
 
 def op (o):
     return eval(f"lambda x,y : x {o} y")

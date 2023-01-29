@@ -19,7 +19,7 @@ font = pygame.font.Font('./font.tff',96)
 screen = pygame.display.set_mode(size)
 decisions = dict({'left':0,'right':0})
 planet = Planet ("./sprites/Planets/Planet.png", scale=scale, ypadding=0)
-player = Sprite('./sprites/sprite2-128x128.png')
+player = Sprite('./sprites/kangaroo128x128.png')
 
 def main ():
     initialise()
@@ -40,7 +40,7 @@ def start_render ():
         for event in pygame.event.get():
             if event.type == pygame.QUIT: sys.exit()
 
-        clock.tick(60)
+        clock.tick(24)
 
         where = 'left' if player.new_angle > player.angle else 'right'
         decisions[where] += 1
