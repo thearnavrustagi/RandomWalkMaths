@@ -15,8 +15,8 @@ def create_graph (screen,rect, radius, steps):
         x,y = get_point_on_earth(rect.center, i, steps, radius)
         draw_dot(screen,(x,y))
 
-def draw_dot(screen, loc ,color="#f6cd26"):
-    pygame.draw.circle(screen, color, loc , 4)
+def draw_dot(screen, loc ,color="#f6cd26", dot_radius : int = 4):
+    pygame.draw.circle(screen, color, loc , dot_radius)
 
 def get_point_on_earth(center,i,steps,radius):
         theta = i*(2*pi/steps)
@@ -26,8 +26,8 @@ def get_point_on_earth(center,i,steps,radius):
         return x,y
 
 def make_elementary_points(screen,center,start,end,steps,radius,start_color=(0,255,128),end_color=(255,0,0)):
-    draw_dot(screen, get_point_on_earth(center,start,steps,radius),start_color)
-    draw_dot(screen, get_point_on_earth(center,end,steps,radius),end_color)
+    draw_dot(screen, get_point_on_earth(center,start,steps,radius),start_color, dot_radius=8)
+    draw_dot(screen, get_point_on_earth(center,end,steps,radius),end_color, dot_radius=8)
 
 def get_angle (p1):
     if not p1[0]: p1 = (0.000001,p1[1])

@@ -5,12 +5,12 @@ import utils
 from random import randint
 
 class Sprite :
-    def __init__ (self, impath, scale : int = 1, direction : int = 1, xpadding : int = 0, ypadding : int = 0, steps : int = 0):
+    def __init__ (self, impath, scale : int = 1, direction : int = 1, xpadding : int = 0, ypadding : int = 0, steps : int = 0, rect : tuple = (0,0)):
         # Direction can only be +1 or -1 
         self.impath = impath
         self.SRC_IMAGE = pygame.image.load(self.impath)
         self.image = self.SRC_IMAGE.copy()
-        self.rect = self.image.get_rect()
+        self.rect = self.image.get_rect() if rect == (0,0) else rect
         self.scale = scale
         self.direction = direction
         self.steps = steps
