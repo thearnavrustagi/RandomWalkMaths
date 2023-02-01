@@ -50,7 +50,7 @@ def start_render ():
         for event in pygame.event.get():
             if event.type == pygame.QUIT: sys.exit()
 
-        clock.tick(24)
+        clock.tick(60)
 
         where = 'left' if player.new_angle > player.angle else 'right'
         decisions[where] += 1
@@ -69,10 +69,10 @@ def start_render ():
         r_textRect = r_text.get_rect()
         r_textRect.center = (width - 70, height - 125)
 
-        l_text_c = font.render(f"{decisions['left']}", True, graph_color)
+        l_text_c = font.render(f"{decisions['left']//4}", True, graph_color)
         l_textRect_c = l_text_c.get_rect()
         l_textRect_c.center = (width - 160, height - 155)
-        r_text_c = font.render(f"{decisions['right']}", True, graph_color)
+        r_text_c = font.render(f"{decisions['right']//4}", True, graph_color)
         r_textRect_c = r_text_c.get_rect()
         r_textRect_c.center = (width - 70, height - 155)
 
@@ -94,10 +94,13 @@ def start_render ():
         player.animate_and_blit(screen)
         
         
-        print(player.steps, decisions)
-        if decisions['left'] > 0 : print(decisions['left']//player.steps)
-        pygame.draw.rect(screen, graph_color, pygame.Rect(width - 190, height - 170 - (decisions['left']*100)//BAR_HEIGHT, 60, (decisions['left']*100)//BAR_HEIGHT))
-        pygame.draw.rect(screen, graph_color, pygame.Rect(width - 100, height - 170 - (decisions['right']*100)//BAR_HEIGHT, 60, (decisions['right']*100)//BAR_HEIGHT))
+        
+
+        l_bar = calc_bar_height(decisions, 'left')
+        r_bar = calc_bar_height(decisions, 'right')
+
+        pygame.draw.rect(screen, graph_color, pygame.Rect(width - 190, height - 170 - l_bar, 60, l_bar))
+        pygame.draw.rect(screen, graph_color, pygame.Rect(width - 100, height - 170 - r_bar, 60, r_bar))
 
 
 

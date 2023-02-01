@@ -1,4 +1,4 @@
-from math import sin,cos, pi, atan
+from math import sin,cos, pi, atan, log
 import pygame 
 
 START = 10
@@ -34,3 +34,12 @@ def get_angle (p1):
     if not p1[0]: p1 = (0.000001,p1[1])
     return atan (p1[1]/p1[0])
 
+def log_15 (x : int) -> int:
+    if x <= 0 : return 0
+    return int(log(x)/log(1.01))
+
+def calc_bar_height(decisions : dict, side : str) -> int :
+    if decisions[side] <= BAR_HEIGHT : 
+        return ( decisions[side] * 100 ) // BAR_HEIGHT
+    else :
+        return log_15(( decisions[side] * 100 ) // BAR_HEIGHT) - 1.8*BAR_HEIGHT
