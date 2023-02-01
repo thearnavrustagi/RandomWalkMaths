@@ -8,6 +8,7 @@ SCALE = 7
 RADIUS = 51*SCALE
 SIZE = (1900, 1000)
 CENTER = tuple(map( lambda x,y:y*x,SIZE, (0.5,0.5)))
+BAR_HEIGHT = SIZE[1]//5
 print(CENTER)
 
 def create_graph (screen,rect, radius, steps):

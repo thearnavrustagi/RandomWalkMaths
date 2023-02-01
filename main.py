@@ -38,7 +38,7 @@ def initialise():
     pass
 
 def start_render ():
-    global steps, planet, player, screen, font
+    global steps, planet, player, screen, font, decisions
     graph_color = (0,255,100)
     background_color=(16,0,16)
     clock = pygame.time.Clock()
@@ -69,6 +69,13 @@ def start_render ():
         r_textRect = r_text.get_rect()
         r_textRect.center = (width - 70, height - 125)
 
+        l_text_c = font.render(f"{decisions['left']}", True, graph_color)
+        l_textRect_c = l_text_c.get_rect()
+        l_textRect_c.center = (width - 160, height - 155)
+        r_text_c = font.render(f"{decisions['right']}", True, graph_color)
+        r_textRect_c = r_text_c.get_rect()
+        r_textRect_c.center = (width - 70, height - 155)
+
 
 
         player.random_walk(steps)
@@ -80,12 +87,17 @@ def start_render ():
         make_elementary_points(screen,planet.rect.center,10,0,steps,radius)
         screen.blit(l_text, l_textRect)
         screen.blit(r_text, r_textRect)
+        screen.blit(l_text_c, l_textRect_c)
+        screen.blit(r_text_c, r_textRect_c)
         l_arrow.animate_and_blit(screen)
         r_arrow.animate_and_blit(screen)
         player.animate_and_blit(screen)
-
-        # pygame.draw.rect(screen, graph_color, pygame.Rect(30, 30, 100, 20))
-        # pygame.draw.rect(screen, graph_color, pygame.Rect(30, 30, 60, 60))
+        
+        
+        print(player.steps, decisions)
+        if decisions['left'] > 0 : print(decisions['left']//player.steps)
+        pygame.draw.rect(screen, graph_color, pygame.Rect(width - 190, height - 170 - (decisions['left']*100)//BAR_HEIGHT, 60, (decisions['left']*100)//BAR_HEIGHT))
+        pygame.draw.rect(screen, graph_color, pygame.Rect(width - 100, height - 170 - (decisions['right']*100)//BAR_HEIGHT, 60, (decisions['right']*100)//BAR_HEIGHT))
 
 
 
