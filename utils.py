@@ -6,9 +6,12 @@ END = 0
 STEPS = 60
 SCALE = 7
 RADIUS = 51*SCALE
-SIZE = (1900, 1000)
+SIZE = HEIGHT, WIDTH = (1900, 1000)
 CENTER = tuple(map( lambda x,y:y*x,SIZE, (0.5,0.5)))
 BAR_HEIGHT = SIZE[1]//5
+start_color="#92F7A6"
+end_color="#F30C2C"
+color="#FFD372"
 print(CENTER)
 
 def create_graph (screen,rect, radius, steps):
@@ -43,3 +46,23 @@ def calc_bar_height(decisions : dict, side : str) -> int :
         return ( decisions[side] * 100 ) // BAR_HEIGHT
     else :
         return log_15(( decisions[side] * 100 ) // BAR_HEIGHT) - 1.8*BAR_HEIGHT
+
+def __add(a,b):
+    return tuple(map(lambda x,y:x+y,a,b))
+
+def render_probability_distribution (screen,posn, probability_distribution,scale=2):
+    global color, start_color, end_color
+    x = 64
+    increment = 7
+    points = []
+    for i,y in enumerate(probability_distribution):
+        point = __add(posn,(x,-y*scale))
+        points.append(point)
+        x+=increment
+        mycolor = color
+        if i == START: mycolor = start_color
+        if i == END: mycolor = end_color
+        draw_dot(screen,point,dot_radius=2,color=mycolor)
+
+    for p1,p2 in zip(points[:-1],points[1:]):
+        pygame.draw.line(screen,color,p1,p2)

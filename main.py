@@ -24,21 +24,25 @@ player = Sprite('./sprites/kangaroo128x128.png', steps=START)
 l_arrow = Arrow('./sprites/Arrows/l-0.png', alt_path = './sprites/Arrows/l-1.png', scale=80, rect=(width - 200, height - 100))
 r_arrow = Arrow('./sprites/Arrows/r-0.png', alt_path = './sprites/Arrows/r-1.png', scale=80, rect=(width - 110, height - 100))
 
+probability_distribution = [0]*STEPS + [0]
+
 
 def main ():
     initialise()
     start_render()
 
 def initialise():
-    global background
+    global background, probability_distribution
     rect = background.get_rect()
     myscale = SIZE[0] / rect.height
     myscale = tuple(map(lambda x,y:x*y,(myscale,myscale),rect.size))
     background = pygame.transform.scale(background, myscale)
+    probability_distribution[START] += 1
+    
     pass
 
 def start_render ():
-    global steps, planet, player, screen, font, decisions
+    global steps, planet, player, screen, font, decisions, probability_distribution
     graph_color = "#f792e3"
     background_color=(16,0,16)
     clock = pygame.time.Clock()
@@ -78,7 +82,9 @@ def start_render ():
 
 
 
-        player.random_walk(steps)
+        moving_to = player.random_walk(steps)
+        if moving_to > 0:
+            probability_distribution[moving_to] += 1
         planet.origin(size)
 
         screen.blit(background,(0,0))
@@ -91,10 +97,10 @@ def start_render ():
         screen.blit(r_text_c, r_textRect_c)
         l_arrow.animate_and_blit(screen)
         r_arrow.animate_and_blit(screen)
+        corner = tuple(map(lambda x,y:x+y,(0,WIDTH),(64,-64)))
+        render_probability_distribution(screen,corner,probability_distribution)
         player.animate_and_blit(screen)
-        
-        
-        
+
 
         l_bar = calc_bar_height(decisions, 'left')
         r_bar = calc_bar_height(decisions, 'right')

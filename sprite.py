@@ -76,7 +76,10 @@ class Sprite :
             self.steps += self.choice
             self.new_position = self.position + self.choice
             self.new_angle = (self.new_position*(360/utils.STEPS))
+            self.reach()
+            return self.new_position
         self.reach()
+        return -1
 
     def reach (self):
         if self.new_angle > self.angle: self.move(1)
