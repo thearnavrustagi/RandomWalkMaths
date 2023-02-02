@@ -102,8 +102,6 @@ def start_render ():
         pygame.draw.rect(screen, graph_color, pygame.Rect(width - 190, height - 170 - l_bar, 60, l_bar))
         pygame.draw.rect(screen, graph_color, pygame.Rect(width - 100, height - 170 - r_bar, 60, r_bar))
 
-
-
         # Checking if The Sprite has gone back to the original position
         if player.steps % STEPS == 0 : 
             print("BACK to Origin It Seems! Strangeeee...")
@@ -113,6 +111,10 @@ def start_render ():
         count -= 1
 
         if count == 0 : count = 4 
+
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT: sys.exit()
 
 def draw_edge (i,color,_from=910,_to=890):
     pygame.draw.line(screen,color,(i,_from),(i,_to))
