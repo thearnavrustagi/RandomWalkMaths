@@ -54,7 +54,7 @@ def start_render ():
         for event in pygame.event.get():
             if event.type == pygame.QUIT: sys.exit()
 
-        clock.tick(60)
+        clock.tick(120)
 
         where = 'left' if player.new_angle > player.angle else 'right'
         decisions[where] += 1
