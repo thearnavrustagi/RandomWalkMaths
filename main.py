@@ -39,7 +39,7 @@ def initialise():
 
 def start_render ():
     global steps, planet, player, screen, font, decisions
-    graph_color = (0,255,100)
+    graph_color = "#f792e3"
     background_color=(16,0,16)
     clock = pygame.time.Clock()
     itr = 0

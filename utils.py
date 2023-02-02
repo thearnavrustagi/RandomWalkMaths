@@ -16,7 +16,7 @@ def create_graph (screen,rect, radius, steps):
         x,y = get_point_on_earth(rect.center, i, steps, radius)
         draw_dot(screen,(x,y))
 
-def draw_dot(screen, loc ,color="#f6cd26", dot_radius : int = 4):
+def draw_dot(screen, loc ,color="#FFD372", dot_radius : int = 4):
     pygame.draw.circle(screen, color, loc , dot_radius)
 
 def get_point_on_earth(center,i,steps,radius):
@@ -26,7 +26,7 @@ def get_point_on_earth(center,i,steps,radius):
 
         return x,y
 
-def make_elementary_points(screen,center,start,end,steps,radius,start_color=(0,255,128),end_color=(255,0,0)):
+def make_elementary_points(screen,center,start,end,steps,radius,start_color="#92F7A6",end_color="#F30C2C"):
     draw_dot(screen, get_point_on_earth(center,start,steps,radius),start_color, dot_radius=8)
     draw_dot(screen, get_point_on_earth(center,end,steps,radius),end_color, dot_radius=8)
 
