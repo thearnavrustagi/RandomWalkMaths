@@ -90,7 +90,7 @@ def start_render ():
         screen.blit(background,(0,0))
         planet.blit(screen)
         create_graph(screen,planet.rect,radius,steps)
-        make_elementary_points(screen,planet.rect.center,10,0,steps,radius)
+        make_elementary_points(screen,planet.rect.center,steps,radius)
         screen.blit(l_text, l_textRect)
         screen.blit(r_text, r_textRect)
         screen.blit(l_text_c, l_textRect_c)
@@ -101,7 +101,6 @@ def start_render ():
         render_probability_distribution(screen,corner,probability_distribution)
         player.animate_and_blit(screen)
 
-
         l_bar = calc_bar_height(decisions, 'left')
         r_bar = calc_bar_height(decisions, 'right')
 
@@ -109,9 +108,7 @@ def start_render ():
         pygame.draw.rect(screen, graph_color, pygame.Rect(width - 100, height - 170 - r_bar, 60, r_bar))
 
         # Checking if The Sprite has gone back to the original position
-        if player.steps % STEPS == 0 : 
-            print("BACK to Origin It Seems! Strangeeee...")
-            break
+        if player.angle in (360-END,END): break
         pygame.display.flip()
         itr += 1
         count -= 1

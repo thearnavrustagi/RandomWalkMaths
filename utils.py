@@ -1,9 +1,14 @@
 from math import sin,cos, pi, atan, log
+from random import randint
+import sys
 import pygame 
 
-START = 10
+randomize = True if len(sys.argv) > 1 and "-r" in sys.argv else False
+STEPS = 30 * randint(1,10) if randomize else 60
+START = randint(1,STEPS) if randomize else 10
+#START = 10
 END = 0
-STEPS = 60
+#STEPS = 60
 SCALE = 7
 RADIUS = 51*SCALE
 SIZE = HEIGHT, WIDTH = (1900, 1000)
@@ -12,7 +17,6 @@ BAR_HEIGHT = SIZE[1]//5
 start_color="#92F7A6"
 end_color="#F30C2C"
 color="#FFD372"
-print(CENTER)
 
 def create_graph (screen,rect, radius, steps):
     for i in range(steps):
@@ -29,9 +33,9 @@ def get_point_on_earth(center,i,steps,radius):
 
         return x,y
 
-def make_elementary_points(screen,center,start,end,steps,radius,start_color="#92F7A6",end_color="#F30C2C"):
-    draw_dot(screen, get_point_on_earth(center,start,steps,radius),start_color, dot_radius=8)
-    draw_dot(screen, get_point_on_earth(center,end,steps,radius),end_color, dot_radius=8)
+def make_elementary_points(screen,center,steps,radius,start_color="#92F7A6",end_color="#F30C2C"):
+    draw_dot(screen, get_point_on_earth(center,START,steps,radius),start_color, dot_radius=8)
+    draw_dot(screen, get_point_on_earth(center,END,steps,radius),end_color, dot_radius=8)
 
 def get_angle (p1):
     if not p1[0]: p1 = (0.000001,p1[1])
@@ -42,10 +46,9 @@ def log_15 (x : int) -> int:
     return int(log(x)/log(1.01))
 
 def calc_bar_height(decisions : dict, side : str) -> int :
-    if decisions[side] <= BAR_HEIGHT : 
+    if decisions[side] <= BAR_HEIGHT: 
         return ( decisions[side] * 100 ) // BAR_HEIGHT
-    else :
-        return log_15(( decisions[side] * 100 ) // BAR_HEIGHT) - 1.8*BAR_HEIGHT
+    return log_15(( decisions[side] * 100 ) // BAR_HEIGHT) - 1.8*BAR_HEIGHT
 
 def __add(a,b):
     return tuple(map(lambda x,y:x+y,a,b))
