@@ -98,7 +98,7 @@ def start_render ():
         l_arrow.animate_and_blit(screen)
         r_arrow.animate_and_blit(screen)
         corner = tuple(map(lambda x,y:x+y,(0,WIDTH),(64,-64)))
-        render_probability_distribution(screen,corner,probability_distribution)
+        #render_probability_distribution(screen,corner,probability_distribution)
         player.animate_and_blit(screen)
 
         l_bar = calc_bar_height(decisions, 'left')
@@ -108,13 +108,16 @@ def start_render ():
         pygame.draw.rect(screen, graph_color, pygame.Rect(width - 100, height - 170 - r_bar, 60, r_bar))
 
         # Checking if The Sprite has gone back to the original position
-        if player.angle in (360-END,END): break
+        if player.angle in (360-END,END): 
+            print(decisions['left']+decisions['right'])
+            break
         pygame.display.flip()
         itr += 1
         count -= 1
 
         if count == 0 : count = 4 
 
+    sys.exit(0)
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT: sys.exit()
