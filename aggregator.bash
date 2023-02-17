@@ -1,6 +1,6 @@
 for i in {2..100}
 do
-	echo `python3 ./random_walk.py steps $i` >> ./random_steps.txt
+	echo `python3 ./random_walk.py steps $i` >> ./random_gridlength.txt
 done
 
 for i in {1..99}
